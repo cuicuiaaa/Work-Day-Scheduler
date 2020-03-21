@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Work Day Scheduler</title>
+  </head>
+
+  <body>
+    <header class="jumbotron">
+      <h1 class="display-3">Work Day Scheduler</h1>
+      <p class="lead">A simple calendar app for scheduling your work day</p>
+      <p id="currentDay" class="lead"></p>
+    </header>
+    <div class="container time-block">
+      <!-- Timeblocks go here -->
+      <div class="row">
+        <div class="col-md-1 hour">9AM</div>
+        <textarea class="col-md-10 future 9" data-index="0"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">10AM</div>
+        <textarea class="col-md-10 future 10" data-index="1"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">11AM</div>
+        <textarea class="col-md-10 future 11" data-index="2"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">12PM</div>
+        <textarea class="col-md-10 future 12" data-index="3"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">1PM</div>
+        <textarea class="col-md-10 future 1" data-index="4"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">2PM</div>
+        <textarea class="col-md-10 future 2" data-index="5"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button>  
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">3PM</div>
+        <textarea class="col-md-10 future 3" data-index="6"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">4PM</div>
+        <textarea class="col-md-10 future 4" data-index="7"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+      <div class="row">
+        <div class="col-md-1 hour">5PM</div>
+        <textarea class="col-md-10 future 5" data-index="8"></textarea>
+        <button class="col-md-1 saveBtn">SAVE</button> 
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script type="text/javascript">
+
+    var event = ["", "", "", "", "", "", "", "", ""];
+
+    getStorage();
+
+    $(".saveBtn").on("click", function() {
+      var textBox = $(this).parent().children(".col-md-10");
+      var input = textBox.val();
+      var i = parseInt(textBox.attr("data-index"));
+      event[i] = input;
+      localStorage.setItem("event", JSON.stringify(event));
+    });
+
+    function getStorage() {
+      var storedEvents = JSON.parse(localStorage.getItem("event"));
+
+      if (storedEvents !== null) {
+        event = storedEvents;
+        $(".9").text(event[0]);
+        $(".10").text(event[1]);
+        $(".11").text(event[2]);
+        $(".12").text(event[3]);
+        $(".1").text(event[4]);
+        $(".2").text(event[5]);
+        $(".3").text(event[6]);
+        $(".4").text(event[7]);
+        $(".5").text(event[8]);
+      }
+    };
+    </script>
+    <script src="moment.js"></script>
+    <script>
+      $("#currentDay").text(moment().format('dddd') + ", " + moment().format('MMM Do'));
+      var time = moment().format();
+      var time1 = time.charAt(11);
+      var time2 = time.charAt(12);
+      var onlyTime = parseInt(time1 + time2);
+      console.log(onlyTime);
+
+      if (onlyTime >= 9 && onlyTime < 10) {
+        $(".9").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 10 && onlyTime < 11) {
+        $(".9").toggleClass("future").toggleClass("past");
+        $(".10").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 11 && onlyTime < 12) {
+        $(".9, .10").toggleClass("future").toggleClass("past");
+        $(".11").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 12 && onlyTime < 13) {
+        $(".9, .10, .11").toggleClass("future").toggleClass("past");
+        $(".12").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 13 && onlyTime < 14) {
+        $(".9, .10, .11, .12").toggleClass("future").toggleClass("past");
+        $(".1").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 14 && onlyTime < 15) {
+        $(".9, .10, .11, .12, .1").toggleClass("future").toggleClass("past");
+        $(".2").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 15 && onlyTime < 16) {
+        $(".9, .10, .11, .12, .1, .2").toggleClass("future").toggleClass("past");
+        $(".3").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 16 && onlyTime < 17) {
+        $(".9, .10, .11, .12, .1, .2, .3").toggleClass("future").toggleClass("past");
+        $(".4").toggleClass("future").toggleClass("present");
+      }
+
+      else if (onlyTime >= 17 && onlyTime < 18) {
+        $(".9, .10, .11, .12, .1, .2, .3, .4").toggleClass("future").toggleClass("past");
+        $(".5").toggleClass("future").toggleClass("present");
+      }
+
+      else {
+        $("textarea").toggleClass("future").toggleClass("past");
+      }
+    </script>
+  </body>
+</html>
